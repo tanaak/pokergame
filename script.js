@@ -2,6 +2,9 @@ const app = function(){
     const game = {};
     const suits = ["spades","hearts","clubs","diams"];
     const ranks = ["A",2,3,4,5,6,7,8,9,10,"J","Q","K"];
+    //const ranks = ["A",2,3,3];
+    //const suits = ["spades","spades","spades","spades"];
+    
     
     
     
@@ -32,7 +35,7 @@ const app = function(){
         game.dealerHand = [];
         game.playerHand = [];
         game.start = true;
-        turnOff(game.btnDeal); 
+        //turnOff(game.btnDeal); 
         game.playerCards.innerHTML = "";
         game.dealerCards.innerHTML = "";
         takeCard(game.dealerHand,game.dealerCards,false);
@@ -47,26 +50,158 @@ const app = function(){
         takeCard(game.playerHand,game.playerCards,false);
         takeCard(game.playerHand,game.playerCards,false);
         
-        Playeronepair(game.playerHand,game.playerCards,false);
+        dsortHand(game.dealerHand,game.dealerCards);
+        psortHand(game.playerHand,game.playerCards);
+        
+        
+        
+        
+        
+        
+        
+        
         
     }
     
     
-    function Playeronepair(hand,el,h){
-        if(hand == hand){
-           game.status.innerHTML = "player onepair";
-           }
+    
+    function dsortHand(hand,ele,){
+        hand.sort(
+            (a,b) => {
+                var foo = a.value - b.value
+                
+                //console.log(foo)
+                return foo
+            }
+        )
+        console.log(hand);
+        showCard(hand[0],ele);
+        showCard(hand[1],ele);
+        showCard(hand[2],ele);
+        showCard(hand[3],ele);
+        showCard(hand[4],ele);
+        //game.deaelerScore.innerHTML = "dealer";
+        //game.playerScore.innerHTML = "player";
+        //game.playerScore.style.fontSize = "2em";
+        //game.deaelerScore.style.fontSize = "2em";
+        
+        game.dealerscore = []
+        dpair(hand);
         
     }
+    
+    
+    function psortHand(hand,ele){
+        hand.sort(
+            (a,b) => {
+                var foo = a.value - b.value
+                
+                //console.log(foo)
+                return foo
+            }
+        )
+        console.log(hand);
+        showCard(hand[0],ele);
+        showCard(hand[1],ele);
+        showCard(hand[2],ele);
+        showCard(hand[3],ele);
+        showCard(hand[4],ele);
+        //game.deaelerScore.innerHTML = "dealer";
+        //game.playerScore.innerHTML = "player";
+        //game.playerScore.style.fontSize = "2em";
+        //game.deaelerScore.style.fontSize = "2em";
+        
+        
+        
+        
+        ppair(hand);
+        
+        
+    }
+    
+    
+    
+    function dpair(val){
+        if(val[0].value == val[1].value && val[1].value == val[2].value && val[2].value == val[3].value || val[1].value == val[2].value && val[2].value == val[3].value && val[3].value == val[4].value){
+            game.deaelerScore.innerHTML = "dealer fourcard";
+           }else if(val[0].value == val[1].value && val[2].value == val[3].value && val[3].value == val[4].value || val[3].value == val[4].value && val[0].value == val[1].value && val[1].value == val[2].value){
+                    game.deaelerScore.innerHTML = "dealer fullhouse";
+            }else if(val[0].suit == val[1].suit && val[1].suit == val[2].suit && val[2].suit == val[3].suit && val[3].suit == val[4].suit){
+                     game.deaelerScore.innerHTML = "dealer flash";
+            }else if(val[0].value == val[1].value && val[1].value == val[2].value || val[1].value == val[2].value && val[2].value == val[3].value || val[2].value == val[3].value && val[3].value == val[4].value){
+                    game.deaelerScore.innerHTML = "dealer threecard";
+            }else if(val[0].value == val[1].value && val[2].value == val[3].value || val[0].value == val[1].value && val[3].value == val[4].value || val[1].value == val[2].value && val[3].value == val[4].value){
+            game.deaelerScore.innerHTML = "dealer twopair";
+           }else if (val[0].value == val[1].value || val[1].value == val[2].value || val[2].value == val[3].value || val[1].value == val[2].value || val[3].value == val[4].value || val[3].value == val[4].value){
+            game.deaelerScore.innerHTML = "dealer onepair";
+            console.log(val);
+        }else{
+            game.deaelerScore.innerHTML = "dealer nopair";
+        }
+    }
+    
+    
+    
+    
+    
+    function ppair(val){
+        
+        
+        
+        
+        if(val[0].value == val[1].value && val[1].value == val[2].value && val[2].value == val[3].value || val[1].value == val[2].value && val[2].value == val[3].value && val[3].value == val[4].value){
+            game.playerScore.innerHTML = "player fourcard";
+            
+           }else if(val[0].value == val[1].value && val[2].value == val[3].value && val[3].value == val[4].value || val[3].value == val[4].value && val[0].value == val[1].value && val[1].value == val[2].value){
+                    game.playerScore.innerHTML = "player fullhouse";
+               
+            }else if(val[0].suit == val[1].suit && val[1].suit == val[2].suit && val[2].suit == val[3].suit && val[3].suit == val[4].suit){
+                     game.playerScore.innerHTML = "player flash";
+               
+            }else if(val[0].value == val[1].value && val[1].value == val[2].value || val[1].value == val[2].value && val[2].value == val[3].value || val[2].value == val[3].value && val[3].value == val[4].value){
+                    game.playerScore.innerHTML = "player threecard";
+                    
+            }else if(val[0].value == val[1].value && val[2].value == val[3].value || val[0].value == val[1].value && val[3].value == val[4].value || val[1].value == val[2].value && val[3].value == val[4].value){
+            game.playerScore.innerHTML = "player twopair";
+                
+           }else if (val[0].value == val[1].value || val[1].value == val[2].value || val[2].value == val[3].value || val[1].value == val[2].value || val[3].value == val[4].value || val[3].value == val[4].value){
+            game.playerScore.innerHTML = "player onepair";
+                
+        }else{
+            game.playerScore.innerHTML = "player nopair";
+                
+        }
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
     
     
     function takeCard(hand,ele,h){
         let temp = game.deck.shift();
         //console.log(temp)
+        //let v = temp.value;
+        
+        //console.log(v)
+        
         hand.push(temp)
         //console.log(game);
-        showCard(temp,ele);
+        //showCard(temp,ele);
     }
+    
+    
+    
+    
     
     function showCard(card,el){
         if  (card != undefined){
@@ -141,7 +276,7 @@ const app = function(){
          for(let i = 0;i<suits.length;i++){
              for(let j = 0;j<ranks.length;j++){
                  
-                 let card = {};
+                 let card = [];
                  let tempValue
                  
                  if(ranks[j] == "K"){
@@ -192,6 +327,7 @@ const app = function(){
         game.dealerCards.textContent = "DEALER CARD";
         game.deaelerScore = document.createElement('div');
         game.deaelerScore.textContent = "-";
+        game.deaelerScore.style.fontSize = "2em";
         game.deaelerScore.classList.add('score');
         game.dealer.append(game.deaelerScore);
         game.table.append(game.dealer);
@@ -202,6 +338,7 @@ const app = function(){
         game.playerCards.textContent = "PLAYER CARD";
         game.playerScore = document.createElement('div');
         game.playerScore.textContent = "-";
+        game.playerScore.style.fontSize = "2em";
         game.playerScore.classList.add('score');
         game.player.append(game.playerScore);
         game.table.append(game.player);
